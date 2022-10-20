@@ -1,0 +1,17 @@
+<lol>
+    <header>
+        <title>
+            locale.gui_title
+        </title>
+        <close-gui></close-gui>
+    </header>
+    <body>
+        <vstack>
+            <hstack>
+                <button>
+                    locale.button
+                </button>
+            </hstack>
+        </vstack>
+    </body>
+</lol>
