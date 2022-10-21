@@ -8,6 +8,10 @@ local GUI = {
 
     end,
 
+    on_event = function (event)
+        --displatch the event to the custom functions
+    end,
+
     on_gui_checked_state_changed = function(event)
 
     end,
