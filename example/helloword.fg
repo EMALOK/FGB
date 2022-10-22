@@ -1,6 +1,6 @@
 <frame name="main_frame" caption="gui_title">
     <frame direction="vertical">
-        <flow direction="horizontal">
+        <flow name="row_flow" direction="horizontal">
             <button caption="button_text">
             </button>
             <button caption="button_text">
@@ -8,5 +8,12 @@
         </flow>
         <button caption="button_text">
         </button>
+        <line>
+        </line>
+        <flow>
+            <button>
+                
+            </button>
+        </flow>
     </frame>
 </frame>

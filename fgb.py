@@ -43,8 +43,17 @@ def iter(parent_name,node):
 
     for child in node:
 
-        iter(gui_element["name"],child)
+        iter(gui_element["attrib"]["name"],child)
 
 iter("",root)
 
-pprint.pprint(gui_element_list)
+for el in gui_element_list:
+
+    inner_string = ""
+
+    for key,value in el["attrib"].items():
+        inner_string += f"{key}=\"{value}\","
+
+    inner_string = inner_string[:-1]
+
+    print(f'local {el["attrib"]["name"]} = {el["parent_name"]}.add{{{inner_string}}}')

@@ -34,7 +34,7 @@ def check_tree_types(root: ET.Element):
     ok = True
 
     for i in root.iter():
-        utils.expl(i)
+        #utils.expl(i)
         if i.tag not in valid_types:
             ok = False
             utils.perr("parsed element not valid. element:",i)
