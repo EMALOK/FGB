@@ -22,12 +22,12 @@ utils.expl("in file:",in_file_path)
 utils.expl("out file:",out_file_path)
 
 tree = ET.parse(in_file_path)
-root = tree.getroot()
-parent_map = {c:p for p in tree.iter() for c in p}
+gui_root = tree.getroot()
 
-if root.tag != "frame":
-    utils.perr("the root element of file:",in_file_path,"isn't frame.","'",root.tag,"'","was detected")
+if gui_root.tag != "gui":
+    utils.perr("the root element of file:",in_file_path,"isn't frame.","'",gui_root.tag,"'","was detected")
 
+root = gui_root[0]
 if not validate.check_tree_types(root):
     quit(-1)
 
@@ -56,4 +56,7 @@ for el in gui_element_list:
 
     inner_string = inner_string[:-1]
 
-    print(f'local {el["attrib"]["name"]} = {el["parent_name"]}.add{{{inner_string}}}')
+    if el["parent_name"] == "":
+        print(f'local {el["attrib"]["name"]} = root.add{{{inner_string}}}')
+    else:
+        print(f'local {el["attrib"]["name"]} = {el["parent_name"]}.add{{{inner_string}}}')

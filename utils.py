@@ -1,5 +1,8 @@
 
 
+from xml.etree.ElementTree import Element
+
+
 log_explain = False
 unnamed_element_counter = 0
 
@@ -13,7 +16,7 @@ def perr(*parg):
 def pwarn(*parg):
     print('\033[93m', *parg,'\033[0m')
 
-def get_gui_element(parent_name,node):
+def get_gui_element(parent_name,node:Element):
     global unnamed_element_counter
 
     gui_element = {}
@@ -33,21 +36,14 @@ def get_gui_element(parent_name,node):
         gui_element["attrib"]["name"] = f"unnamed_{unnamed_element_counter}"
         unnamed_element_counter += 1
 
-    #gui element caption
-    if "caption" in node.attrib.keys():
-        gui_element["attrib"]["caption"] = node.attrib["caption"]
+    #those without excetion are translated directlsy
 
-    
-    #gui element tooltip
-    if "tooltip" in node.attrib.keys():
-        gui_element["attrib"]["tooltip"] = node.attrib["tooltip"]
+    for key,value in node.attrib.items():
 
-    #gui element style
-    if "style" in node.attrib.keys():
-        gui_element["attrib"]["style"] = node.attrib["style"]
+        if key == "direction" and node.tag not in ["frame","flow","line"]:
+            continue
 
-    #gui element style
-    if "direction" in node.attrib.keys() and node.tag in ["frame","flow","line"]:
-        gui_element["attrib"]["direction"] = node.attrib["direction"]
+
+        gui_element["attrib"][key] = node.attrib[key]
 
     return gui_element
