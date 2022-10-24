@@ -14,6 +14,8 @@ local GUI = {
 
         if global.players[player.index].is_gui_open then
             --close the gui
+
+            player.gui.screen["main_frame"].destroy()
             
             global.players[player.index].is_gui_open = false
 
@@ -21,8 +23,9 @@ local GUI = {
             --open the gui
 
             global.players[player.index].is_gui_open = true
-
             local root = player.gui.screen
+
+
             local main_frame = root.add { type = "frame", name = "main_frame", caption = "gui_title" }
             local unnamed_0 = main_frame.add { type = "frame", name = "unnamed_0", direction = "vertical" }
             local row_flow = unnamed_0.add { type = "flow", name = "row_flow", direction = "horizontal" }
@@ -39,10 +42,5 @@ local GUI = {
 
     on_event = function(event)
         --displatch the event to the custom functions
-    end,
-
-    --example
-    skip_button_on_click = function ()
-
-    end,
+    end
 }

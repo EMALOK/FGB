@@ -1,0 +1,15 @@
+<gui>
+    <frame name="gui_main" direction="vertical">
+        <flow name="title_bar">
+            <label style="frame_title" caption="titolo"></label>
+            <empty-widget style="draggable_space"></empty-widget>
+            <sprite-button
+                style="frame_action_button"
+                sprite="utility/close_white"
+                hovered_sprite="utility/close_black"
+                clicked_sprite="utility/close_black"
+            ></sprite-button>
+        </flow>
+        <frame></frame>
+    </frame>
+</gui>
