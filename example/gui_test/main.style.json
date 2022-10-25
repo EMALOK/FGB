@@ -1,9 +1,0 @@
-[
-    {
-        "name":"content_style",
-        "type":"frame_style",
-        "parent":"frame",
-        "width":200,
-        "height":200
-    }
-]
