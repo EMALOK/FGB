@@ -10,6 +10,8 @@
                 clicked_sprite="utility/close_black"
             ></sprite-button>
         </flow>
-        <frame></frame>
+        <frame name="content" style="content_style" caption="content caption">
+
+        </frame>
     </frame>
 </gui>

@@ -5,7 +5,7 @@ from typing import List
 import xml.etree.ElementTree as ET
 import validate
 import utils
-import builder.gui_template as gui_template
+import template.gui_template as gui_template
 
 
 unnamed_element_counter = 0
@@ -43,7 +43,7 @@ def get_gui_element(parent_name,node:ET.Element):
     return gui_element
 
 
-def iter(parent_name,node) -> list[dict]:
+def iter(parent_name,node):
 
     res = []
 
@@ -88,6 +88,11 @@ def build(abs_file_path,out_path) :
 
 
         for key,value in el["attrib"].items():
+
+            if key == "lcaption":
+                inner_string += f"caption={{\"{value}\"}},"
+                continue
+
             inner_string += f"{key}=\"{value}\","
 
         inner_string = inner_string[:-1]
@@ -107,13 +112,16 @@ def build(abs_file_path,out_path) :
     #todo events
     template = template.replace(r"{%gui_events_dispatch%}","")
     template = template.replace(r"{%gui_events%}","")
+    
+    gui_folder = out_path + "/gui"
 
-    print(template)
+    file_name = os.path.splitext(os.path.basename(abs_file_path))[0].replace(".","_")
 
-    print(os.path.basename(abs_file_path))
-    print()
+    #folder exist
+    if not os.path.isdir(gui_folder):
+        os.mkdir(gui_folder)
 
-    file_out = open(out_path + "\\gui\\" + os.path.splitext(os.path.basename(abs_file_path))[0].replace(".","_") + ".lua","w")
+    file_out = open(gui_folder + "/" + file_name + ".lua","w")
 
     file_out.write(template)
 

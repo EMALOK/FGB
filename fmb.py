@@ -4,6 +4,7 @@ import glob
 import time 
 
 import builder.gui as gui
+import builder.style as style
 
 parser = argparse.ArgumentParser(description="Generate Factorio mods")
 parser.add_argument("in_folder",nargs=1,help="the input folder to build")
@@ -18,10 +19,6 @@ input_file_paths = glob.glob(f"{os.path.abspath(args.in_folder[0])}/*")
 #print(input_file_paths)
 
 
-#the files to send to the individual builder
-gui_xml_files = []
-
-
 for file_path in input_file_paths:
 
     print(file_path)
@@ -29,3 +26,7 @@ for file_path in input_file_paths:
     if "gui.xml" in file_path:
 
         gui.build(file_path,args.out_folder[0])
+
+    if "style.json" in file_path:
+
+        style.build(file_path,args.out_folder[0])
