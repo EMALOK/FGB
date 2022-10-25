@@ -76,6 +76,13 @@ def build(abs_file_path,out_path) :
     if not validate.check_tree_types(gui_root):
         quit(-1)
 
+    extra_code = ""
+
+    if len(root) == 2:
+        extra_code = root[1].text
+
+        print(extra_code) 
+
     gui_element_list = iter("root",gui_root)
 
     pprint.pprint(gui_element_list)
@@ -88,6 +95,11 @@ def build(abs_file_path,out_path) :
 
 
         for key,value in el["attrib"].items():
+
+            if value == "true" or value == "false":
+                inner_string += f"{key}={value},"
+                continue
+
 
             if key == "lcaption":
                 inner_string += f"caption={{\"{value}\"}},"
@@ -109,9 +121,13 @@ def build(abs_file_path,out_path) :
     #gui_build
     template = template.replace(r"{%gui_build%}",gui_build)
 
+    #extra_code
+    template = template.replace(r"{%extra_code%}",extra_code)
+    
     #todo events
     template = template.replace(r"{%gui_events_dispatch%}","")
     template = template.replace(r"{%gui_events%}","")
+    
     
     gui_folder = out_path + "/gui"
 

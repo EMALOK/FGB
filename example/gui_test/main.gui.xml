@@ -1,8 +1,16 @@
 <gui>
     <frame name="gui_main" direction="vertical">
         <flow name="title_bar">
-            <label style="frame_title" caption="titolo"></label>
-            <empty-widget style="draggable_space"></empty-widget>
+            <label
+                style="frame_title"
+                caption="titolo"
+                ignored_by_interaction="true"
+            ></label>
+            <empty-widget
+                name="filler"
+                style="draggable_space"
+                ignored_by_interaction="true"
+            ></empty-widget>
             <sprite-button
                 style="frame_action_button"
                 sprite="utility/close_white"
@@ -10,8 +18,22 @@
                 clicked_sprite="utility/close_black"
             ></sprite-button>
         </flow>
-        <frame name="content" style="content_style" caption="content caption">
+        <frame name="content" style="window_content_frame_deep">
 
+            <tabbed-pane name="tabbed_pane">
+                <tab name="tab1" caption="ciao">
+                </tab>
+                <tab name="tab2" caption="stai"></tab>
+                <label name="label1" caption="label 1"></label>
+                <label name="label2" caption="label 2"></label>
+            </tabbed-pane>
         </frame>
     </frame>
+    <extra>
+        title_bar.drag_target = title_bar.parent
+        filler.style.height = 24
+        filler.style.horizontally_stretchable = true
+        tabbed_pane.add_tab(tab1,label1)
+        tabbed_pane.add_tab(tab2,label2)
+    </extra>
 </gui>

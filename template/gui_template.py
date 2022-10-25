@@ -27,6 +27,8 @@ local GUI = {
             local root = player.gui.screen
 
             {%gui_build%}
+
+            {%extra_code%}
         end
 
 
