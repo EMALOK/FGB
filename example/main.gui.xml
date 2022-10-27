@@ -11,12 +11,7 @@
                 style="draggable_space"
                 ignored_by_interaction="true"
             ></empty-widget>
-            <sprite-button
-                style="frame_action_button"
-                sprite="utility/close_white"
-                hovered_sprite="utility/close_black"
-                clicked_sprite="utility/close_black"
-            ></sprite-button>
+            <close-button></close-button>
         </flow>
         <frame name="content" style="window_content_frame_deep">
 
@@ -30,6 +25,7 @@
         </frame>
     </frame>
     <extra>
+        gui_main.auto_center = true
         title_bar.drag_target = title_bar.parent
         filler.style.height = 24
         filler.style.horizontally_stretchable = true
