@@ -1,14 +1,14 @@
 gui_template = r"""
 local GUI = {
 
-    is_open = false,
-
-    init = function()
+    init = function(self)
         global.players = {}
-    end,
 
-    setup_new_player = function(player_index)
-        global.players[player_index] = { is_gui_open = false }
+        script.on_event(defines.events.on_player_created,function(event)
+            global.players[event.player_index] = { is_gui_open = false }
+        end)
+
+        {%bind_events%}
     end,
 
     toggle_gui = function(player)
@@ -31,16 +31,7 @@ local GUI = {
             {%extra_code%}
         end
 
-
-    end,
-
-    on_event = function(event)
-        --displatch the event to the custom functions
-
-        {%gui_events_dispatch%}
     end
-
-    {%gui_events%}
 }
 
 return GUI

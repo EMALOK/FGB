@@ -6,9 +6,33 @@ import xml.etree.ElementTree as ET
 import validate
 import utils
 import template.gui_template as gui_template
+import template.event_template as event_template
 
 
 unnamed_element_counter = 0
+
+component_folder = ""
+
+#removed on_gui_opened and on_gui_closed
+#example:
+#"on_gui_click":[
+#   {
+#       name:"button_1",
+#       body:"code here or expose"
+#   }
+# ]
+gui_events = {
+    "on_gui_checked_state_changed":[],
+    "on_gui_click":[],
+    "on_gui_confirmed":[],
+    "on_gui_elem_changed":[],
+    "on_gui_location_changed":[],
+    "on_gui_selected_tab_changed":[],
+    "on_gui_selection_state_changed":[],
+    "on_gui_switch_state_changed":[],
+    "on_gui_text_changed":[],
+    "on_gui_value_changed":[]
+}
 
 def get_gui_element(parent_name,node:ET.Element):
     global unnamed_element_counter
@@ -37,6 +61,13 @@ def get_gui_element(parent_name,node:ET.Element):
         if key == "direction" and node.tag not in ["frame","flow","line"]:
             continue
 
+        if key == "on_click" and node.tag in ["button","sprite-button"]:
+            #add the event to the list and don't add it to the  attrib
+            gui_events["on_gui_click"].append({
+                "name":gui_element["attrib"]["name"],
+                "body":value
+            })
+            continue
 
         gui_element["attrib"][key] = node.attrib[key]
 
@@ -73,19 +104,17 @@ def build(abs_file_path,out_path) :
 
 
     gui_root = root[0]
-    if not validate.check_tree_types(gui_root):
-        quit(-1)
+    validate.check_tree_types(gui_root)
 
     extra_code = ""
 
+    #extra code todo actual detection
     if len(root) == 2:
         extra_code = root[1].text
 
-        print(extra_code) 
-
     gui_element_list = iter("root",gui_root)
 
-    pprint.pprint(gui_element_list)
+    #pprint.pprint(gui_element_list)
 
     gui_build = ""
 
@@ -112,6 +141,26 @@ def build(abs_file_path,out_path) :
         gui_build += f'local {el["attrib"]["name"]} = {el["parent_name"]}.add{{{inner_string}}}\n'
 
 
+    bind_events = ""
+
+    #bind events
+    for event_type in gui_events:
+
+        curr_event = copy.deepcopy(event_template.event_template)
+        curr_event = curr_event.replace(r"{%event_name%}",event_type)
+
+        event_element_body = ""
+
+        for event_type_element_bind in gui_events[event_type]:
+
+            event_element_body += copy.deepcopy(event_template.event_element_template)
+            event_element_body = event_element_body.replace(r"{%element_name%}",event_type_element_bind["name"])
+            event_element_body = event_element_body.replace(r"{%event_element_body%}",event_type_element_bind["body"])
+
+
+        curr_event = curr_event.replace(r"{%event_body%}",event_element_body)
+        bind_events += curr_event
+
     #generate the .lua file
     template = copy.deepcopy(gui_template.gui_template)
 
@@ -125,8 +174,7 @@ def build(abs_file_path,out_path) :
     template = template.replace(r"{%extra_code%}",extra_code)
     
     #todo events
-    template = template.replace(r"{%gui_events_dispatch%}","")
-    template = template.replace(r"{%gui_events%}","")
+    template = template.replace(r"{%bind_events%}",bind_events)
     
     
     gui_folder = out_path + "/gui"

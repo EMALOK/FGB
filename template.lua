@@ -1,7 +1,5 @@
 local GUI = {
 
-    is_open = false,
-
     init = function()
         global.players = {}
     end,

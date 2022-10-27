@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+import builder.component as component
 import utils
 
 valid_types = [
@@ -30,13 +31,14 @@ valid_types = [
 ]
 
 def check_tree_types(root: ET.Element):
-
-    ok = True
-
-    for i in root.iter():
+    for i in list(root.iter()):
         #utils.expl(i)
         if i.tag not in valid_types:
-            ok = False
-            utils.perr("parsed element not valid. element:",i)
 
-    return ok
+            comp = component.translate_component(i)
+            i.tag = comp.tag
+            i.attrib = comp.attrib
+
+            print(i)
+
+    print(list(root.iter()))

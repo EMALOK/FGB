@@ -4,6 +4,7 @@ import glob
 import time 
 
 import builder.gui as gui
+import builder.component as component
 
 parser = argparse.ArgumentParser(description="Generate Factorio mods")
 parser.add_argument("in_folder",nargs=1,help="the input folder to build")
@@ -14,6 +15,8 @@ args = parser.parse_args()
 
 
 input_file_paths = glob.glob(f"{os.path.abspath(args.in_folder[0])}/*")
+
+component.component_folder = f"{os.path.abspath(args.in_folder[0])}/components"
 
 #print(input_file_paths)
 
