@@ -1,1 +1,0 @@
-python3 /Users/erl/Desktop/dev/FMB/fmb.py . "/Users/erl/Library/Application Support/factorio/mods/test-mod/fmb"
